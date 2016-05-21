@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/05/2016 02:01:04 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Usuario" table="usuario" schema="public" optimistic-lock="version">
+        <id name="idUsuario" type="int">
+            <column name="id_usuario" />
+            <generator class="increment" />
+        </id>
+        <property name="UNombre" type="string">
+            <column name="u_nombre" length="32" />
+        </property>
+        <property name="UApellido" type="string">
+            <column name="u_apellido" length="32" />
+        </property>
+        <property name="UTelefono" type="string">
+            <column name="u_telefono" length="32" />
+        </property>
+        <property name="UContrasenha" type="string">
+            <column name="u_contrasenha" length="32" />
+        </property>
+        <property name="UCorreo" type="string">
+            <column name="u_correo" length="32" unique="true" />
+        </property>
+        <property name="UCalificaficacion" type="java.lang.Integer">
+            <column name="u_calificaficacion" />
+        </property>
+        <property name="UNumeroCalificacion" type="java.lang.Integer">
+            <column name="u_numero_calificacion" />
+        </property>
+        <set name="prestamosForIdUsuarioPrestador" table="prestamo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_usuario_prestador" />
+            </key>
+            <one-to-many class="modelo.Prestamo" />
+        </set>
+        <set name="libros" table="libro" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_usuario" />
+            </key>
+            <one-to-many class="modelo.Libro" />
+        </set>
+        <set name="prestamosForIdUsuarioSolicitante" table="prestamo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_usuario_solicitante" />
+            </key>
+            <one-to-many class="modelo.Prestamo" />
+        </set>
+    </class>
+</hibernate-mapping>
