@@ -9,11 +9,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import modelo.Libro;
 import modelo.Usuario;
-import sun.font.TrueTypeFont;
 
 /**
  *
@@ -101,6 +99,7 @@ public class beanPublicacion {
                 libro.setLEvaluacionRedaccion(evalRedac);
                 libro.setLResehna(resenha);
                 libro.setLPablasClave(palabrasClaves);
+                libro.setUsuario(usuario);
                 dao.insertar(libro);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Libro publicado exitosamente.", null);
                 faceContext.addMessage(null, message);
@@ -170,7 +169,7 @@ public class beanPublicacion {
 //        }
 //    }
     
-    public List<Libro> mostrarMisPublicaciones(){
+    public List<Libro> mostrarMisPublicaciones(int id){
         List<Libro> resultado;
         try{
             resultado = dao.obtenerPorUsuario(id);

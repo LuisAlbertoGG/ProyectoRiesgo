@@ -56,7 +56,7 @@ public class LibroDao {
     public List<Libro> obtenerPorUsuario(int id){
         List<Libro> list = null;
         try{
-            list = dao.buscarPorAtributo("id_profesor", "" + id);
+            list = dao.buscarPorAtributo("id_usuario", "" + id);
         }catch(Exception e){
             throw e;
         }

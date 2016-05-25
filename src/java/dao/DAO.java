@@ -19,6 +19,7 @@ public class DAO<E> {
 
     private DAO(){
         session = HibernateUtil.getSessionFactory().openSession();
+        
     }
     
     public DAO(String tabla, String id) {

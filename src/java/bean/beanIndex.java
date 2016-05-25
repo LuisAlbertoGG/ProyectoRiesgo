@@ -18,6 +18,8 @@ public class beanIndex {
     public static final String REGISTRAR = "registrar";
     public static final String RECUPERAR_CONTRASENHA = "recuperarcontrasenha";
     public static final String PUBLICAR = "publicar";
+    public static final String MIS_PUBLICACIONES = "mispublicaciones";
+    public static final String VER_PUBLICACIONES = "verpublicaciones";
     
     public static String INDEX() {
         return INDEX;
@@ -43,4 +45,11 @@ public class beanIndex {
         return PUBLICAR;
     }
     
+    public static String MIS_PUBLICACIONES(){
+        return MIS_PUBLICACIONES;
+    }
+    
+    public static String VER_PUBLICACIONES(){
+        return VER_PUBLICACIONES;
+    }
 }
