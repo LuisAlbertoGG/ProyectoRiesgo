@@ -41,7 +41,8 @@
                 <p><h:outputLabel value="Bienvenido " style="font-weight:bold; color:#ffffff;"/>
                     <h:outputText value="#{beanLogout.usuario}" style="font-weight:bold; color: #ffffff;"/>
                 </p>
-                <p:menuButton  value="Menú"   >
+                <p:menuButton  value="Menú">
+                    <p:menuitem value="Publicar un Libro" action="#{beanIndex.PUBLICAR()}"/>
                     <p:menuitem value="Salir " action="#{beanLogout.cerrarSesion()}"/>
                     
                 </p:menuButton>

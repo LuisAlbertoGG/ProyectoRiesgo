@@ -15,6 +15,11 @@
             <to-view-id>/inicio.xhtml</to-view-id>
             <redirect />
         </navigation-case>
+        <navigation-case>
+            <from-outcome>recuperarcontrasenha</from-outcome>
+            <to-view-id>/recuperarContrasenha.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/registrar.xhtml</from-view-id>
@@ -30,6 +35,34 @@
             <from-outcome>index</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
             <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>publicar</from-outcome>
+            <to-view-id>/publicar.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/recuperarContrasenha.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>recuperarcontrasenha</from-outcome>
+            <to-view-id>/recuperarContrasenha.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/publicar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/inicio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>publicar</from-outcome>
+            <to-view-id>/publicar.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

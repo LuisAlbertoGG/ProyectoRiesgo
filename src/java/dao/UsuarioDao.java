@@ -15,7 +15,7 @@ public class UsuarioDao {
     private DAO<Usuario> dao;
     
     public UsuarioDao() {
-        dao = new DAO("Usuario", "idusuario");
+        dao = new DAO("Usuario", "id_usuario");
     }
     
     public void insertar (Usuario obj){
@@ -50,6 +50,29 @@ public class UsuarioDao {
             throw e;
         }
         return obj;
+    }
+    
+    public Usuario validarCorreo(Usuario obj){
+        String[] atributos, valores;
+        List<Usuario> list;
+        Usuario aux = null;
+        atributos = new String[1];
+        valores = new String[1];
+        atributos[0] = "u_correo";
+        valores[0] = obj.getUCorreo();
+      
+        try {
+            list = dao.buscar(atributos, valores);
+            if (list != null) {
+                if (!list.isEmpty()) {
+                    aux = list.get(0);
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return aux;
+    
     }
     
     public boolean existeCorreo(String correo){

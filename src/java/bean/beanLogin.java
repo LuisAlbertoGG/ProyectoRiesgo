@@ -47,16 +47,19 @@ public class beanLogin {
                 httpServletRequest.getSession().setAttribute("sesionNombre", p2.getUNombre());
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Otorgado.", "Acceso Otorgado");
                 faceContext.addMessage(null, message);
-                return beanIndex.INICIO;
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
+                return beanIndex.INICIO();
             }else{
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrecto.", null);
                 faceContext.addMessage(null, message);
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
             }
         }catch(Exception e){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }
-        return beanIndex.INDEX;
+        return beanIndex.INDEX();
     }
 
     public String getCorreo() {

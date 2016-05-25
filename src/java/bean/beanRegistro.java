@@ -86,18 +86,23 @@ public class beanRegistro {
         if(!errorCont.equals("")){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorCont, null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else if(!errorNombre.equals("")){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorNombre, null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else if(!errorApellido.equals("")){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorApellido, null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else if(!errorTelefono.equals("")){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorTelefono, null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else if(!errorCorreo.equals("")){
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorCorreo, null);
             faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else{
             a = new Usuario();
             a.setUContrasenha(contrasenha);
@@ -110,13 +115,15 @@ public class beanRegistro {
                 daoA.insertar(a);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Cuenta creda correctamente.", null);
                 faceContext.addMessage(null, message);
-                return beanIndex.INDEX;
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
+                return beanIndex.INDEX();
             }catch(Exception e){
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
                 faceContext.addMessage(null, message);
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
             }
         }
-        return beanIndex.REGISTRAR;
+        return beanIndex.REGISTRAR();
     }
     public static String validarTelefono(String telefono){
         if(telefono.length() != 10){

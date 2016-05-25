@@ -4,9 +4,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
 
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Intercambio de Libros</title>
+        <title>Nueva Publicacion</title>
         <style type="text/css">
             html, body {
                 height: 100%;
@@ -79,19 +80,32 @@
         <div class="form ">
 
             <h:form id="formLogin" >
-                <p:growl id="messages" showDetail="true" sticky="true"  />
+                <p:growl id="messages" showDetail="true" sticky="true"/>
                 <div class="campos">
-                <h3>Bienvenido al sistema</h3>
-                <h4>Correo</h4>
-                
-                <h:inputText  value="#{beanLogin.correo}" />
-                    <h4>Contraseña</h4>
-                    <h:inputSecret  value="#{beanLogin.contrasenha}"/>
+                    <h4>Nombre del libro</h4>
+                    <h:inputText value="#{beanPublicacion.titulo}"/>
+                    <h4>Autor</h4>
+                    <h:inputText value="#{beanPublicacion.autor}"/>
+                    <h4>Editorial</h4>
+                    <h:inputText value="#{beanPublicacion.editorial}"/>
+                    <h4>Isbn</h4>
+                    <h:inputText value="#{beanPublicacion.isbn}"/>
+                    <h4>Año</h4>
+                    <h:inputText value="#{beanPublicacion.anho}"/>
+                    <h4>Edición</h4>
+                    <h:inputText value="#{beanPublicacion.edicion}"/>
+                    <h4>Evaluación de Contenido</h4>
+                    <h:inputText value="#{beanPublicacion.evalCont}"/>
+                    <h4>Evaluación de Redacción</h4>
+                    <h:inputText value="#{beanPublicacion.evalRedac}"/>
+                    <h4>Reseña</h4>
+                    <h:inputText value="#{beanPublicacion.resenha}"/>
+                    <h4>Palabras Claves</h4>
+                    <h:inputText value="#{beanPublicacion.palabrasClaves}"/>
                 </div>
                 <div class="boton">
-                    <h:commandButton  value="¿Olvidaste tu constraseña?" action="#{beanIndex.RECUPERAR_CONTRASENHA()}" style="background: #4CAF50;"/>
-                    <h:commandButton id ="boton" value="Ingresar" action="#{beanLogin.login()}" style="background: #4CAF50;"/>
-                    <h:commandButton id ="boton1" value="Registrarse" action="#{beanIndex.REGISTRAR()}" style="background: #FF0000;"/>
+                    <h:commandButton action="#{beanPublicacion.guardarPublicacion()}" value="Publicar" styleClass="boton" style="background: #4CAF50;"/>
+                    <h:commandButton action="#{beanIndex.INICIO}" value="Regresar" styleClass="boton" style="background: #FF0000;"/>
                 </div>
             </h:form>
         </div>

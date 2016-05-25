@@ -60,6 +60,7 @@
                 color: black;
                 font-size: 14px;
                 -webkit-transition: all 0.3 ease;
+                transition: all 0.3 ease;
                 cursor: pointer;
             }
             
@@ -75,23 +76,22 @@
         </style>
     </h:head>
     <h:body>
+        <div >
+
+        </div>
         <img id="full-screen-background-image" alt="full-screen-background-image" src="img/computer-10.jpg"  />
         <div class="form ">
 
             <h:form id="formLogin" >
                 <p:growl id="messages" showDetail="true" sticky="true"  />
                 <div class="campos">
-                <h3>Bienvenido al sistema</h3>
-                <h4>Correo</h4>
-                
-                <h:inputText  value="#{beanLogin.correo}" />
-                    <h4>Contraseña</h4>
-                    <h:inputSecret  value="#{beanLogin.contrasenha}"/>
+                <h3>Recupera tu contraseña</h3>
+                <h4>Ingresa el correo del cual quieres recuperar la contraseña:</h4>
+                <h:inputText  value="#{beanRecuperarContrasenha.correo}" />
                 </div>
                 <div class="boton">
-                    <h:commandButton  value="¿Olvidaste tu constraseña?" action="#{beanIndex.RECUPERAR_CONTRASENHA()}" style="background: #4CAF50;"/>
-                    <h:commandButton id ="boton" value="Ingresar" action="#{beanLogin.login()}" style="background: #4CAF50;"/>
-                    <h:commandButton id ="boton1" value="Registrarse" action="#{beanIndex.REGISTRAR()}" style="background: #FF0000;"/>
+                    <h:commandButton  value="Recuperar" action="#{beanRecuperarContrasenha.recuperarContrasenha()}" style="background: #4CAF50;"/>
+                    <h:commandButton id ="boton1" value="Cancelar" action="#{beanIndex.INDEX()}" style="background: #FF0000;"/>
                 </div>
             </h:form>
         </div>
