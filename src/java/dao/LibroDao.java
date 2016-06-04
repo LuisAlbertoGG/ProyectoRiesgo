@@ -16,7 +16,7 @@ public class LibroDao {
     private final DAO<Libro> dao;
     
     public LibroDao() {
-        dao = new DAO("Libro", "idLibro");
+        dao = new DAO("Libro", "id_Libro");
     }
     
     public void insertar (Libro obj){

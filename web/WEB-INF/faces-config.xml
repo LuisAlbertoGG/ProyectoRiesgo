@@ -79,12 +79,49 @@
             <from-outcome>inicio</from-outcome>
             <to-view-id>/inicio.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>detallesmilibro</from-outcome>
+            <to-view-id>/detallesMiLibro.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/verPublicaciones.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>inicio</from-outcome>
             <to-view-id>/inicio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>detalleslibro</from-outcome>
+            <to-view-id>/detallesLibro.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/detallesLibro.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>verpublicaciones</from-outcome>
+            <to-view-id>/verPublicaciones.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/detallesMiLibro.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>mispublicaciones</from-outcome>
+            <to-view-id>/misPublicaciones.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>actualizarpublicacion</from-outcome>
+            <to-view-id>/actualizarPublicacion.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/actualizarPublicacion.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>actualizarpublicacion</from-outcome>
+            <to-view-id>/actualizarPublicacion.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>detallesmilibro</from-outcome>
+            <to-view-id>/detallesMiLibro.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

@@ -16,10 +16,9 @@ public class DAO<E> {
     private  Session session;
     private String tabla;
     private String id;
-
+    
     private DAO(){
         session = HibernateUtil.getSessionFactory().openSession();
-        
     }
     
     public DAO(String tabla, String id) {
@@ -98,6 +97,7 @@ public class DAO<E> {
             session.save(obj);
             session.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
             throw e;
         }

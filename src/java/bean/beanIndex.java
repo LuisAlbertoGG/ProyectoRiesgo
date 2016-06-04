@@ -20,6 +20,21 @@ public class beanIndex {
     public static final String PUBLICAR = "publicar";
     public static final String MIS_PUBLICACIONES = "mispublicaciones";
     public static final String VER_PUBLICACIONES = "verpublicaciones";
+    public static final String DETALLES_LIBRO = "detalleslibro";
+    public static final String DETALLES_MI_LIBRO = "detallesmilibro";
+    public static final String ACTUALIZAR_PUBLICACION = "actualizarpublicacion";
+    
+    public static String ACTUALIZAR_PUBLICACION(){
+        return ACTUALIZAR_PUBLICACION;
+    }    
+    
+    public static String DETALLES_MI_LIBRO(){
+        return DETALLES_MI_LIBRO;
+    }
+    
+    public static String DETALLES_LIBRO(){
+        return DETALLES_LIBRO;
+    }
     
     public static String INDEX() {
         return INDEX;

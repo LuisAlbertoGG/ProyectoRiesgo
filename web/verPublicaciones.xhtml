@@ -91,24 +91,10 @@
                         <p:column headerText="Editorial">
                             <h:outputText value="#{publicaciones.LEditorial}" />
                         </p:column>
-                        <!--<p:rowExpansion>
-                            <p:panelGrid  columns="2" columnClasses="label,value" style="width:960px"> 
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{publicaciones.idActividad}" />
-                                
-                                <h:outputText value="Nombre:" />
-                                <h:outputText value="#{beanLogout.usuario}" />
-                                
-                                <h:outputText value="Lugares Disponibles" />
-                                <h:outputText value="#{publicaciones.ICupomaximo-beanPublicacion.disponibles(publicaciones.idActividad)}" />
- 
-                                <h:outputText value="Descripción" />
-                                <h:outputText value="#{publicaciones.SDescripciom}" />
-                                
-                                <h:commandButton value="Solicitar" action ="#{beanSolicitar.guardarSolicitud(publicaciones.idActividad, publicaciones.profesor.idProfesor, beanLogout.id)}"/>
-                                
-                            </p:panelGrid>
-                        </p:rowExpansion>-->
+                        
+                        <p:column headerText="Detalles">
+                            <h:commandButton value="Detalles" action="#{beanPublicacion.definirActividad1(publicaciones, false)}" />
+                        </p:column>
  
                     </p:dataTable>
                 </div>

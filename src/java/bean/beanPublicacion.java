@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import modelo.Libro;
 import modelo.Usuario;
+import org.hibernate.context.spi.CurrentSessionContext;
 
 /**
  *
@@ -48,7 +49,7 @@ public class beanPublicacion {
     
     public beanPublicacion() {
         faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        httpServletRequest = (HttpServletRequest)faceContext.getExternalContext().getRequest();
         dao = new LibroDao();
         daoP = new UsuarioDao();
         sEdicion = EDICION_INVALIDA;
@@ -62,16 +63,16 @@ public class beanPublicacion {
         int idA;
         try{
             if(libro == null){
-                idA = (int)httpServletRequest.getSession().getAttribute("sesionActividad");
+                idA = (int)httpServletRequest.getSession().getAttribute("sesionLibro");
                 libro = dao.obtenerPorID(idA);
                 titulo = libro.getLTitulo();
                 autor = libro.getLAutor();
                 editorial = libro.getLEditorial();
                 isbn = libro.getLIsbn();
-                anho = libro.getLAnho();
-                sEdicion = ""+edicion;
-                sEvalCont = ""+evalCont;
-                sEvalRedac = ""+evalRedac;
+                anho = libro.getLAnho();                
+                sEdicion = ""+libro.getNEdicion();
+                sEvalCont = ""+libro.getLEvalucionContenido();
+                sEvalRedac = ""+libro.getLEvaluacionRedaccion();
                 resenha = libro.getLResehna();
                 palabrasClaves = libro.getLPablasClave();
             }
@@ -79,7 +80,18 @@ public class beanPublicacion {
         
         }
     }
-    
+    public String eliminarLibSes(){
+        try{
+            httpServletRequest.getSession().removeAttribute("sesionLibro");
+            return beanIndex.MIS_PUBLICACIONES();
+        }catch(Exception e){
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.DETALLES_MI_LIBRO();
+        }
+        
+    }
     public String guardarPublicacion(){
         String error;
         Usuario usuario;
@@ -112,6 +124,7 @@ public class beanPublicacion {
                 return beanIndex.PUBLICAR();
             }
         }catch(Exception e){
+            System.out.println(e.toString());
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
             faceContext.addMessage(null, message);
             faceContext.getExternalContext().getFlash().setKeepMessages(true);
@@ -119,55 +132,47 @@ public class beanPublicacion {
         }
     }
     
-//    public String actualizarPublicacion(){
-//        String error;
-//        Usuario profesor;
-//        error = checkCampos(false);
-//        try{
-//            if(error.equals("")){
-//                profesor = daoP.obtenerPorID(id);
-//                libro.setICupomaximo(cupoMaximo);
-//                libro.setSDescripciom(descripcion);
-//                if(area != null){
-//                    actividad.setArea(area);
-//                }
-//                if(tipo != null){
-//                    actividad.setTipo(tipo);
-//                }
-//                actividad.setProfesor(profesor);
-//                dao.actualizar(actividad);
-//                message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad actualizada exitosamente.", null);
-//                faceContext.addMessage(null, message);
-//                faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//                return beanIndex.ACTUALIZAR_PUBLICACION;
-//            }else{
-//                message = new FacesMessage(FacesMessage.SEVERITY_ERROR,error, null);
-//                faceContext.addMessage(null, message);
-//                faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//                return beanIndex.ACTUALIZAR_PUBLICACION;
-//            }
-//        }catch(Exception e){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
-//            faceContext.addMessage(null, message);
-//            faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//            return beanIndex.ACTUALIZAR_PUBLICACION;
-//        }
-//    }
-//    
-//    public String borrarPublicacion(){
-//        try{
-//            dao.borrar(actividad);
-//            message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad borrada exitosamente.", null);
-//            faceContext.addMessage(null, message);
-//            faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//            return beanIndex.BORRAR_PUBLICACION;
-//        }catch(Exception e){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
-//            faceContext.addMessage(null, message);
-//            faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//            return beanIndex.BORRAR_PUBLICACION;
-//        }
-//    }
+    public String actualizarPublicacion(){
+        String error;
+        Usuario usuario;
+        error = checkCampos();
+        try{
+            if(error.equals("")){
+                usuario = daoP.obtenerPorID(id);
+                libro.setLTitulo(titulo);
+                dao.actualizar(libro);
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad actualizada exitosamente.", null);
+                faceContext.addMessage(null, message);
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
+                return beanIndex.DETALLES_MI_LIBRO;
+            }else{
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR,error, null);
+                faceContext.addMessage(null, message);
+                faceContext.getExternalContext().getFlash().setKeepMessages(true);
+                return beanIndex.DETALLES_MI_LIBRO;
+            }
+        }catch(Exception e){
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.DETALLES_MI_LIBRO;
+        }
+    }
+    
+    public String borrarPublicacion(){
+        try{
+            dao.borrar(libro);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad borrada exitosamente.", null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.MIS_PUBLICACIONES;
+        }catch(Exception e){
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.DETALLES_MI_LIBRO;
+        }
+    }
     
     public List<Libro> mostrarMisPublicaciones(int id){
         List<Libro> resultado;
@@ -252,21 +257,22 @@ public class beanPublicacion {
         return "";
     }
     
-//    public String definirActividad(Actividad actividad,boolean actualizar){
-//        if(actividad == null){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Actividad invalida.", null);
-//            faceContext.addMessage(null, message);
-//            faceContext.getExternalContext().getFlash().setKeepMessages(true);
-//            return beanIndex.MIS_ACTIVIDADES;
-//        }else{
-//            httpServletRequest.getSession().setAttribute("sesionActividad", actividad.getIdActividad());
-//            if(actualizar){
-//                return beanIndex.ACTUALIZAR_PUBLICACION;
-//            }else{
-//                return beanIndex.BORRAR_PUBLICACION;
-//            }
-//        }
-//    }
+    public String definirActividad1(Libro libro,boolean actualizar){
+        if(libro == null){
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Actividad invalida.", null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.VER_PUBLICACIONES;
+        }else{
+            httpServletRequest.getSession().setAttribute("sesionLibro", libro.getIdLibro());
+            definirActividad();
+            if(actualizar){
+                return beanIndex.DETALLES_MI_LIBRO;
+            }else{
+                return beanIndex.DETALLES_LIBRO;
+            }
+        }
+    }
     
     public Libro getActividad() {
         return libro;

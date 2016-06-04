@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Modificar Perfil</title>
+        <style type="text/css">
+            html, body {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            #full-screen-background-image {
+                z-index: -999;
+                width: 100%;
+                height: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+            .login-page {
+                width: 360px;
+                padding: 8% 0 0;
+                margin: auto;
+            }
+            .form {
+                position: relative;
+                z-index: 1;
+                background: #FFFFFF;
+                max-width: 250px;
+                margin: 0 auto 100px;
+                padding: 30px;
+                text-align: center;
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+            }
+            .form input {
+                font-family: "Roboto", sans-serif;
+                outline: 0;
+                background: #f2f2f2;
+                width: 100%;
+                border: 0;
+                margin: 0 0 15px;
+                padding: 15px;
+                box-sizing: border-box;
+                font-size: 13px;
+            }
+            
+            .ui-growl {
+                position:absolute;
+                top:50%;
+                left:39%;
+                z-index:9999;
+            }
+
+
+
+        </style>
+    </h:head>
+    <h:body>
+        <div >
+
+        </div>
+        <img id="full-screen-background-image" alt="full-screen-background-image" src="img/computer-10.jpg"  />
+        <div class="form ">
+
+            <h:form id="formLogin" >
+                <p:growl id="messages" showDetail="true" sticky="true"  />
+                <div class="campos">
+                    <p><h:outputLabel value="Nombre actual: " style="font-weight:bold; color: black;"/><h:outputText value="#{beanLogout.usuario}" style="font-weight:bold; color: black;"/></p>
+                    
+                    <p>
+                    <h:outputLabel value="Titulo actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.titulo}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa el titulo"/>
+                    <h:inputText value="#{beanPublicacion.titulo}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Autor actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.autor}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa el autor"/>
+                    <h:inputText value="#{beanPublicacion.autor}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Editorial actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.editorial}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa la editorial"/>
+                    <h:inputText value="#{beanPublicacion.editorial}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Isbn actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.isbn}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa el isbn"/>
+                    <h:inputText value="#{beanPublicacion.isbn}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Año actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.anho}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa el año"/>
+                    <h:inputText value="#{beanPublicacion.anho}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Edicion actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.getsEdicion()}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa la edición"/>
+                    <h:inputText value="#{beanPublicacion.edicion}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Evaluación de contenido actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.getsEvalCont()}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa la evaluación de contenido"/>
+                    <h:inputText value="#{beanPublicacion.evalCont}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Evaluación de redacción actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.getsEvalRedac()}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa la evaluación de redacción"/>
+                    <h:inputText value="#{beanPublicacion.evalRedac}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Reseña actual: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.resenha}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa la reseña"/>
+                    <h:inputText value="#{beanPublicacion.resenha}"/> 
+                    
+                    <p>
+                    <h:outputLabel value="Palabras claves actuales: " style="font-weight:bold; color: black;"/>
+                    <h:outputText value="#{beanPublicacion.palabrasClaves}" style="font-weight:bold; color: black;"/>
+                    </p>
+                    <h:outputText value="Ingresa las palabras claves"/>
+                    <h:inputText value="#{beanPublicacion.palabrasClaves}"/> 
+                    
+                    
+                    <h:commandButton action="#{beanPublicacion.actualizarPublicacion()}" value="Guardar" style="background: #4CAF50;"/>
+                    <h:commandButton action="#{beanIndex.DETALLES_MI_LIBRO()}" value="Regresar" style="background: #FF0000;"/>
+                </div>
+
+
+
+            </h:form>
+        </div>
+
+    </h:body>
+</html>

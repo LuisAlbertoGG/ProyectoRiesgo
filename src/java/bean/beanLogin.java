@@ -30,7 +30,7 @@ public class beanLogin {
     
     public beanLogin(){
         faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        httpServletRequest = (HttpServletRequest)faceContext.getExternalContext().getRequest();
         daoP = new UsuarioDao();
     }
     
