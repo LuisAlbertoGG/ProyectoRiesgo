@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Mis Actividades</title>
+        <style type="text/css">
+            html, body {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            #full-screen-background-image {
+                z-index: -999;
+                width: 100%;
+                height: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+            .login-page {
+                width: 360px;
+                padding: 8% 0 0;
+                margin: auto;
+            }
+            #formLogin {
+                position: relative;
+                z-index: 1;
+                margin: 0 auto 100px;
+                padding: 30px;
+                text-align: center;
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+            }
+            
+            #boton {
+                position: relative;
+                z-index: 1;
+                margin: 0 auto 10px;
+                padding: 1px;
+                text-align: center;
+                width: 20%;
+            }
+            .form input {
+                font-family: "Roboto", sans-serif;
+                outline: 0;
+                background: #f2f2f2;
+                width: 100%;
+                border: 0;
+                margin: 0 0 15px;
+                padding: 15px;
+                box-sizing: border-box;
+                font-size: 13px;
+            }
+            
+            .ui-growl {
+                position:absolute;
+                top:50%;
+                left:39%;
+                z-index:9999;
+            }
+
+
+
+        </style>
+    </h:head>
+    <h:body>
+        <div >
+
+        </div>
+        <img id="full-screen-background-image" alt="full-screen-background-image" src="img/computer-10.jpg"  />
+        <div class="form ">
+
+            <h:form id="formLogin" >
+                <p:growl id="messages" showDetail="true" sticky="true"  />
+                <div class="campos">
+                    <p><h:outputLabel value="Nombre actual: " style="font-weight:bold; color: white;"/><h:outputText value="#{beanLogout.usuario}" style="font-weight:bold; color: white;"/></p>
+                    <h4 style="color: white;">¿Estás seguro que quieres solicitar un préstamos por el libro: </h4>
+                    <h:outputLabel value="#{beanPublicacion.titulo}" style="color: white;"/>
+                </div>
+            </h:form>
+                <h:form id="boton">
+                    <h:commandButton value="Ofrecer" action="#{beanPrestamo.guardarPrestamo(beanPublicacion.idA, beanLogout.id)}" />
+                    <h:commandButton action="#{beanIndex.DETALLES_LIBRO()}" value="Regresar" style="background: #FF0000;"/>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>

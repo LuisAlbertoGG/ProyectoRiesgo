@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
  * @author luis
  */
 public class mail {
+    
     public void correo(String correo  , String contra) {
 
         System.out.println("Antes de Enviar");
@@ -53,7 +54,6 @@ public class mail {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Enviado");
 
     }
 }

@@ -93,6 +93,16 @@ public class LibroDao {
         return list;
     }
     
+    public List<Libro> obtenerMostrar(String a, String b){
+        List<Libro> list = null;
+        try{
+            list = dao.buscarPorAtributo(a, b);
+        }catch(Exception e){
+            throw e;
+        }
+        return list;
+    }
+    
     public List<Libro> obtenerLista(){
         List<Libro> list = null;
         try{

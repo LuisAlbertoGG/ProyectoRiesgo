@@ -23,6 +23,31 @@ public class beanIndex {
     public static final String DETALLES_LIBRO = "detalleslibro";
     public static final String DETALLES_MI_LIBRO = "detallesmilibro";
     public static final String ACTUALIZAR_PUBLICACION = "actualizarpublicacion";
+    public static final String SOLICITAR = "solicitar";
+    public static final String INTERCAMBIO = "intercambio";
+    public static final String MIS_SOLICITUDES = "missolicitudes";
+    public static final String SOLICITUDES = "solicitudes";
+    public static final String SOLICITUDES_ACEPTADAS = "solicitudesaceptadas";
+    
+    public static String SOLICITUDES_ACEPTADAS(){
+        return SOLICITUDES_ACEPTADAS;
+    }
+    
+    public static String MIS_SOLICITUDES(){
+        return MIS_SOLICITUDES;
+    }
+    
+    public static String SOLICITUDES(){
+        return SOLICITUDES;
+    }
+    
+    public static String INTERCAMBIO(){
+        return INTERCAMBIO;
+    }
+    
+    public static String SOLICITAR(){
+        return SOLICITAR;
+    }
     
     public static String ACTUALIZAR_PUBLICACION(){
         return ACTUALIZAR_PUBLICACION;

@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import modelo.Libro;
 import modelo.Usuario;
 import org.hibernate.context.spi.CurrentSessionContext;
-
+import dao.IntercambioDao;
+import dao.PrestamoDao;
+import modelo.Intercambio;
+import modelo.Prestamo;
 /**
  *
  * @author luis
@@ -46,6 +49,9 @@ public class beanPublicacion {
     private final HttpServletRequest httpServletRequest;
     private final FacesContext faceContext;
     private FacesMessage message;
+    private int idA;
+    private final PrestamoDao PDao;
+    private final IntercambioDao IDao;
     
     public beanPublicacion() {
         faceContext = FacesContext.getCurrentInstance();
@@ -56,11 +62,13 @@ public class beanPublicacion {
         sEvalCont = EVALCONT_INVALIDA;
         sEvalRedac = EVALREDAC_INVALIDA;
         id = (int)httpServletRequest.getSession().getAttribute("id");
+        PDao = new PrestamoDao();
+        IDao = new IntercambioDao();
         definirActividad();
     }
     
     private void definirActividad(){
-        int idA;
+        
         try{
             if(libro == null){
                 idA = (int)httpServletRequest.getSession().getAttribute("sesionLibro");
@@ -92,6 +100,22 @@ public class beanPublicacion {
         }
         
     }
+    public String eliminarLibSes1(){
+        try{
+            httpServletRequest.getSession().removeAttribute("sesionLibro");
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud guardada", null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.INICIO();
+        }catch(Exception e){
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
+            faceContext.addMessage(null, message);
+            faceContext.getExternalContext().getFlash().setKeepMessages(true);
+            return beanIndex.INICIO();
+        }
+        
+    }
+    
     public String guardarPublicacion(){
         String error;
         Usuario usuario;
@@ -112,6 +136,7 @@ public class beanPublicacion {
                 libro.setLResehna(resenha);
                 libro.setLPablasClave(palabrasClaves);
                 libro.setUsuario(usuario);
+                libro.setLOferta(true);
                 dao.insertar(libro);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Libro publicado exitosamente.", null);
                 faceContext.addMessage(null, message);
@@ -141,7 +166,7 @@ public class beanPublicacion {
                 usuario = daoP.obtenerPorID(id);
                 libro.setLTitulo(titulo);
                 dao.actualizar(libro);
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad actualizada exitosamente.", null);
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Libro actualizado exitosamente.", null);
                 faceContext.addMessage(null, message);
                 faceContext.getExternalContext().getFlash().setKeepMessages(true);
                 return beanIndex.DETALLES_MI_LIBRO;
@@ -159,10 +184,44 @@ public class beanPublicacion {
         }
     }
     
+    
     public String borrarPublicacion(){
         try{
+            List<Prestamo> pres;
+            List<Intercambio> inter;
+            List<Intercambio> inter1;
+            Prestamo tmp1;
+            Intercambio tmp2;
+            int id1;
+            pres = PDao.obtenerPorLibro(libro.getIdLibro());
+            if(pres != null){
+                for(int i = 0; i<pres.size();i++){
+                    tmp1 = pres.get(i);
+                    inter = IDao.obtenerPorPrestamo(tmp1.getIdPrestamo());
+                    if(inter != null){
+                        for(int e = 0; e<inter.size();e++){
+                            tmp2 = inter.get(e);
+                            IDao.borrar(tmp2);
+                        }
+                    }
+                    PDao.borrar(tmp1);
+                }
+            }
+            inter = IDao.obtenerPorLibro(libro.getIdLibro());
+            if(inter != null){
+                for(int i = 0; i<inter.size();i++){
+                    id1 = inter.get(i).getPrestamo().getIdPrestamo();
+                    inter1 = IDao.obtenerPorPrestamo(id1);
+                    if(inter1 != null){
+                        for(int e = 0; e < inter1.size(); e++){
+                            IDao.borrar(inter1.get(e));
+                        }
+                    }
+                    PDao.borrar(PDao.obtenerPorID(id1));
+                }
+            }
             dao.borrar(libro);
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Actividad borrada exitosamente.", null);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Libro borrado exitosamente.", null);
             faceContext.addMessage(null, message);
             faceContext.getExternalContext().getFlash().setKeepMessages(true);
             return beanIndex.MIS_PUBLICACIONES;
@@ -173,6 +232,7 @@ public class beanPublicacion {
             return beanIndex.DETALLES_MI_LIBRO;
         }
     }
+      
     
     public List<Libro> mostrarMisPublicaciones(int id){
         List<Libro> resultado;
@@ -188,33 +248,12 @@ public class beanPublicacion {
     public List<Libro> mostrarPublicaciones(){
         List<Libro> resultado;
         try{
-            resultado = dao.obtenerLista();
+            resultado = dao.obtenerMostrar("l_oferta", "true");
         }catch(Exception e){
             resultado = new LinkedList<>();
         }
         return resultado;
     }
-
-//    private List<Area> mostrarAreas(){
-//        List<Area> list;
-//        try{
-//            list = daoA.obtenerLista();
-//        }catch(Exception e){
-//            list = new LinkedList<>();
-//        }
-//        return list;
-//    }
-    
-//    private List<Tipo> mostrarTipos(){
-//        List<Tipo> list;
-//        try{
-//            list = daoT.obtenerLista();
-//        }catch(Exception e){
-//            list = new LinkedList<>();
-//        }
-//        return list;
-//    }
-
     
     private String checkCampos(){
         try{
@@ -259,7 +298,7 @@ public class beanPublicacion {
     
     public String definirActividad1(Libro libro,boolean actualizar){
         if(libro == null){
-            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Actividad invalida.", null);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Libro invalido.", null);
             faceContext.addMessage(null, message);
             faceContext.getExternalContext().getFlash().setKeepMessages(true);
             return beanIndex.VER_PUBLICACIONES;
@@ -274,13 +313,6 @@ public class beanPublicacion {
         }
     }
     
-    public Libro getActividad() {
-        return libro;
-    }
-
-    public void setActividad(Libro libro) {
-        this.libro = libro;
-    }
 
 //    public String getTipoSeleccionado(){
 //        definirActividad();
@@ -328,88 +360,6 @@ public class beanPublicacion {
 //        }catch(Exception ex){
 //        
 //        }
-//    }
-//    
-//    public Area getArea() {
-//        return area;
-//    }
-//
-//    public void setArea(Area area) {
-//        if(area != null){
-//            this.area = area;
-//        }
-//    }
-//
-//    public Tipo getTipo() {
-//        return tipo;
-//    }
-//
-//    public void setTipo(Tipo tipo) {
-//        if(tipo != null){
-//            this.tipo = tipo;
-//        }
-//    }
-//
-//    public int getCupoMaximo() {
-//        return cupoMaximo;
-//    }
-//
-//    public void setCupoMaximo(int cupoMaximo) {
-//        this.cupoMaximo = cupoMaximo;
-//    }
-//
-//    public String getDescripcion() {
-//        return descripcion;
-//    }
-//
-//    public void setDescripcion(String descripcion) {
-//        this.descripcion = descripcion;
-//    }
-//
-//    public String getCupo() {
-//        return cupo;
-//    }
-//
-//    public void setCupo(String cupo) {
-//        this.cupo = cupo;
-//    }
-//
-//    public String getMensajeCupo() {
-//        return mensajeCupo;
-//    }
-//
-//    public void setMensajeCupo(String mensajeCupo) {
-//        this.mensajeCupo = mensajeCupo;
-//    }
-//
-//    public List<Area> getAreas() {
-//        return areas;
-//    }
-//
-//    public void setAreas(List<Area> areas) {
-//        this.areas = areas;
-//    }
-//
-//    public List<Tipo> getTipos() {
-//        return tipos;
-//    }
-//
-//    public void setTipos(List<Tipo> tipos) {
-//        this.tipos = tipos;
-//    }
-//    
-//    public int disponibles(int id){
-//        List<Solicitud> resultado;
-//        int respuesta;
-//        resultado = daoS.obtenerPorActividad(id);
-//        if(resultado == null){
-//            respuesta = 0;
-//        }else{
-//            
-//            respuesta = resultado.size();
-//        }
-//        
-//        return respuesta;
 //    }
 
     public Libro getLibro() {
@@ -530,6 +480,14 @@ public class beanPublicacion {
 
     public void setMessage(FacesMessage message) {
         this.message = message;
+    }
+
+    public int getIdA() {
+        return idA;
+    }
+
+    public void setIdA(int idA) {
+        this.idA = idA;
     }
     
 }

@@ -48,6 +48,18 @@
             <from-outcome>verpublicaciones</from-outcome>
             <to-view-id>/verPublicaciones.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>missolicitudes</from-outcome>
+            <to-view-id>/misSolicitudes.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>solicitudes</from-outcome>
+            <to-view-id>/solicitudes.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>solicitudesaceptadas</from-outcome>
+            <to-view-id>/solicitudesAceptadas.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/recuperarContrasenha.xhtml</from-view-id>
@@ -101,6 +113,10 @@
             <from-outcome>verpublicaciones</from-outcome>
             <to-view-id>/verPublicaciones.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>solicitar</from-outcome>
+            <to-view-id>/solicitar.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/detallesMiLibro.xhtml</from-view-id>
@@ -122,6 +138,45 @@
         <navigation-case>
             <from-outcome>detallesmilibro</from-outcome>
             <to-view-id>/detallesMiLibro.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/solicitar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>detalleslibro</from-outcome>
+            <to-view-id>/detallesLibro.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/intercambio.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/inicio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/misSolicitudes.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/inicio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>missolicitudes</from-outcome>
+            <to-view-id>/misSolicitudes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/solicitudes.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/inicio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/solicitudesAceptadas.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/inicio.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
