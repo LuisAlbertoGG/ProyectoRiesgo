@@ -12,7 +12,7 @@ import modelo.Usuario;
 
 /**
  *
- * @author esmeralda
+ * @author luis
  */
 @ManagedBean
 @RequestScoped

@@ -8,7 +8,7 @@ import modelo.Usuario;
 
 /**
  * WRAPPER para DAO en la tabla alumno.
- * @author esmeralda
+ * @author luis
  */
 public class UsuarioDao {
 
@@ -99,7 +99,7 @@ public class UsuarioDao {
         atributos[0] = "U_Correo";
         valores[0] = obj.getUCorreo();
         atributos[1] = "U_Contrasenha";
-        valores[1] = obj.getUContrasenha();
+        valores[1] = cifrar(obj.getUContrasenha());
         try{
             list = dao.buscar(atributos, valores);
             if(list != null){
@@ -113,39 +113,21 @@ public class UsuarioDao {
         return aux;
     }
     
-//    public List<Alumno> recuperarNombres(List<Solicitud> lista){
-//        List<Alumno> resultado = new LinkedList<Alumno>();
-//        Solicitud temporal = new Solicitud();
-//        Alumno temp = new Alumno();
-//        int i = 0;
-//        int tamaño = lista.size();
-////        resultado = aux(lista, temporal, temp);
-//        while(i < tamaño && lista.get(i)!= null ){
-//            temporal = lista.get(i);
-//            temp = temporal.getAlumno();
-//            System.out.println(temp.getSNombre());
-//            resultado.add(temp);
-//            System.out.println("Entre "+ i + " veces");
-//            i++;
-//        }
-//        return resultado;
-//    }
-//    
-//    public List<Alumno> aux(List<Solicitud> list, Solicitud temporal, Alumno tempo){
-//        System.out.println("Entre aquí otra vez");
-//        List<Alumno> resultado = new LinkedList<>();
-//        int i = 0;
-//        int tamaño = list.size();
-//        while(i<tamaño){
-//            temporal = list.get(i);
-//            //list.add(i, temporal);
-//            tempo = temporal.getAlumno();
-//            System.out.println(tempo.getSNombre());
-//            resultado.add(tempo);
-//            System.out.println("Entre "+ i + " veces");
-//            i++;
-//        }
-//        
-//        return resultado;
-//    }
+    public static String cifrar(String contra){
+        int longi = contra.length();
+        String resultado = "";
+        String[] deaqui = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"};
+        String[] aaqui = {"z","y","x","w","v","u","t","s","r","q","p","o","ñ","n","m","l","k","j","i","h","g","f","e","d","c","b","a","9","8","7","6","5","4","3","2","1","0"};
+        for(int i = 0; i<longi; i++){
+            String tmp = ""+contra.charAt(i);
+            for(int e = 0; e<37; e++){
+                if(tmp.equals(deaqui[e])){
+                    resultado = resultado+aaqui[e];
+                }
+            }
+        }
+        return resultado;
+        
+    }
+    
 }

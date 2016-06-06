@@ -122,7 +122,6 @@ public class beanPublicacion {
         error = checkCampos();
         try{
             if(error.equals("")){
-
                 usuario = daoP.obtenerPorID(id);
                 libro = new Libro();
                 libro.setLTitulo(titulo);
@@ -257,38 +256,47 @@ public class beanPublicacion {
     
     private String checkCampos(){
         try{
-            evalCont =  Integer.parseInt(sEvalCont);
-            evalRedac = Integer.parseInt(sEvalRedac);
-            edicion = Integer.parseInt(sEdicion);
-            if(evalCont < 1 || evalCont >10){
+            sEvalCont = ""+evalCont;
+            sEvalRedac = ""+evalRedac;
+            sEdicion = ""+edicion;
+
+            if(evalCont < 1 || evalCont >10 || sEvalCont.equals("")){
                 return "Evaluación de contenido no valida.(Debe ser entre 1 y  10)";
             }
-            if(evalRedac < 1 || evalRedac >10){
+            if(evalRedac < 1 || evalRedac >10 || sEvalRedac.equals("")){
                 return "Evaluación de redacción no valida.(Debe ser entre 1 y  10)";
             }
-            if(edicion < 1){
+            if(edicion < 1 || sEdicion.equals("")){
                 return "Edición no valida.";
             }
-            if(titulo.isEmpty()){
+            if(titulo.equals("")){
                 return "Titulo vacio.";
             }
-            if(autor.isEmpty()){
+            if(autor.equals("")){
                 return "Autor vacio.";
             }
-            if(isbn.isEmpty()){
+            if(isbn.equals("")){
                 return "Isbn vacio.";
+            }else{
+                if(isbn.length()!= 10 && isbn.length()!= 13){
+                    return "Longitud de Isbn inválida(10 o 13)";
+                }
             }
-            if(editorial.isEmpty()){
+            if(editorial.equals("")){
                 return "Editorial vacia.";
             }
-            if(anho.isEmpty()){
+            if(anho.equals("")){
                 return "Año vacio.";
-            }
-            if(resenha.isEmpty()){
-                return "Reseña vacia.";
-            }
-            if(palabrasClaves.isEmpty()){
-                return "Palabras Claves vacias.";
+            }else{
+                if(Integer.parseInt(anho)<1000 || Integer.parseInt(anho)>2016){
+                    return "Año inválido";
+                }
+                if(resenha.equals("")){
+                    return "Reseña vacia.";
+                }
+                if(palabrasClaves.equals("")){
+                    return "Palabras Claves vacias.";
+                }
             }
         }catch(Exception e){
             
@@ -314,53 +322,6 @@ public class beanPublicacion {
     }
     
 
-//    public String getTipoSeleccionado(){
-//        definirActividad();
-//        if(tipo == null){
-//            return "No se ha seleccionado tipo.";
-//        }else{
-//            return tipo.toString();
-//        }
-//    }
-//    
-//    public String getAreaSeleccionada(){
-//        definirActividad();
-//        if(area == null){
-//            return "No se ha seleccionado area.";
-//        }else{
-//            return area.toString();
-//        }
-//    }
-    
-//    public void listenerArea(ValueChangeEvent e){
-//        Area aux;
-//        try{
-//            String a = e.getNewValue().toString();
-//            for(int i = 0; i < areas.size(); i++){
-//                aux = areas.get(id);
-//                if(aux.getSArea().equals(a)){
-//                    area = aux;
-//                }
-//            }
-//        }catch(Exception ex){
-//        
-//        }
-//    }
-//    
-//    public void listenerTipo(ValueChangeEvent e){
-//        Tipo aux;
-//        try{
-//            String a = e.getNewValue().toString();
-//            for(int i = 0; i < tipos.size(); i++){
-//                aux = tipos.get(id);
-//                if(aux.getSTipo().equals(a)){
-//                    tipo = aux;
-//                }
-//            }
-//        }catch(Exception ex){
-//        
-//        }
-//    }
 
     public Libro getLibro() {
         return libro;

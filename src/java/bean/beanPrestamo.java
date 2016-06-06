@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,6 +20,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import bean.beanPublicacion;
+import java.util.ArrayList;
+import logica.mail;
 
 /**
  *
@@ -58,10 +60,15 @@ public class beanPrestamo {
         List<Intercambio> inter;
         try{
         pres1 = PDao.obtenerPorID(id_prestamo);
+        System.out.println("Llega aqui1");
         libro = pres1.getLibro();
+        System.out.println("Llega aqui2");
         libro.setLOferta(Boolean.TRUE);
+        System.out.println("Llega aqui3");
         inter = IDao.obtenerPorPrestamo(id_prestamo);
-        if(inter.get(1) != null){
+        System.out.println("Llega aqui4");
+        if(inter != null){
+        if(inter.size() > 1){
             tmp = inter.get(0);
             tmp2 = inter.get(1);
             tmp.getLibro().setLOferta(Boolean.TRUE);            
@@ -75,6 +82,7 @@ public class beanPrestamo {
                 tmp.getLibro().setLOferta(Boolean.TRUE);            
                 IDao.borrar(tmp);
             }
+        }
         }
         PDao.borrar(pres1);
         message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Prestamo cancelado exitosamente", null);
@@ -126,13 +134,17 @@ public class beanPrestamo {
     
     public String aceptar(int id){
         Prestamo pres1;
+        Prestamo pres2;
         List<Prestamo> list1;
         List<Intercambio> list;
         List<Intercambio> list2;
+        List<Intercambio> list3;
+        List<Integer> impo = new ArrayList<>();
         Libro tmp;
         Libro tmp2;
         Libro tmp3;
         Prestamo tmp1;
+        Prestamo s;
         int lib;
         int lib1;
         try{
@@ -141,7 +153,7 @@ public class beanPrestamo {
         tmp = pres1.getLibro();
         tmp.setLOferta(false);        
         list2 = IDao.obtenerPorPrestamo(id);
-        if(list2.get(1) != null){
+        if(list2.size() > 1){
             lib = list2.get(0).getLibro().getIdLibro();
             lib1 = list2.get(1).getLibro().getIdLibro();
             tmp2 = LDao.obtenerPorID(lib);
@@ -164,7 +176,6 @@ public class beanPrestamo {
         }else{
             if(list2.get(0) != null){
                 lib = list2.get(0).getLibro().getIdLibro();
-                System.out.println(lib);
                 list = IDao.obtenerPorLibro(lib);
                 for(int i = 0; i < list.size(); i++){
                     if(list.get(i).getPrestamo().getIdPrestamo() != id){
@@ -173,18 +184,31 @@ public class beanPrestamo {
                 }
                 tmp3 = LDao.obtenerPorID(lib);
                 tmp3.setLOferta(Boolean.FALSE);
-                System.out.println(tmp3.getLTitulo());
             }
         }
-        list = IDao.obtenerPorLibro(tmp.getIdLibro());
+        list = IDao.obtenerPorLibro(tmp.getIdLibro());        
         if(list != null){
             for(int i = 0; i < list.size(); i++){
-                System.out.println("list no es vacia");
-                IDao.borrar(list.get(i));
+                s = list.get(i).getPrestamo();
+                list3 = IDao.obtenerPorPrestamo(s.getIdPrestamo());
+                if(list3 != null){
+                    for(int e = 0; e < list3.size(); e++){
+                        IDao.borrar(list3.get(e));
+                    }
+                }
+                impo.add(s.getIdPrestamo());
             }
         }
         PDao.actualizar(pres1);
-        eliminarLibSes();
+        if(impo != null){
+            for(int r = 0; r < impo.size(); r++){                
+                pres2 = PDao.obtenerPorID(impo.get(r));
+                PDao.borrar(pres2);                
+            }
+        }
+        mail e = new mail();
+        e.avisarPrestador(pres1.getUsuarioByIdUsuarioSolicitante().getUNombre(), pres1.getLibro().getLTitulo(), pres1.getUsuarioByIdUsuarioSolicitante().getUTelefono(), pres1.getUsuarioByIdUsuarioPrestador().getUCorreo(), pres1.getUsuarioByIdUsuarioSolicitante().getUCorreo());
+        e.avisarSolicitante(pres1.getUsuarioByIdUsuarioPrestador().getUNombre(), pres1.getLibro().getLTitulo(), pres1.getUsuarioByIdUsuarioPrestador().getUTelefono(), pres1.getUsuarioByIdUsuarioSolicitante().getUCorreo(), pres1.getUsuarioByIdUsuarioPrestador().getUCorreo());
         message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud aceptada", null);
         faceContext.addMessage(null, message);
         faceContext.getExternalContext().getFlash().setKeepMessages(true);

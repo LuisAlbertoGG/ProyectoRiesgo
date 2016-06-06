@@ -12,16 +12,19 @@ import modelo.Usuario;
 
 /**
  *
- * @author esmeralda
+ * @author luis
  */
 @ManagedBean
 @RequestScoped
 public class beanRegistro {
     
-    public final static String LETRAS = "QWERTYUIOPADFGHJKLÑZXCVBNMqwertyuiopasdfghjklñzxcvbnm";
+    public final static String LETRAS = "QWERTYUIOPASDFGHJKLÑZXCVBNMqwertyuiopasdfghjklñzxcvbnm";
     public final static String NUMEROS = "1234567890";
     public final static String SIMBOLOS = "";
     public final static String DOMINIO = "@ciencias.unam.mx";
+    public final static String DOMINIO1 = "@gmail.com";
+    public final static String DOMINIO2 = "@hotmail.com";
+    
     
     private String nombre;
     private String apellido;
@@ -41,39 +44,6 @@ public class beanRegistro {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
     }
-    
-//    public String registrarProfesor(){
-//        Profesor p;
-//        String errorCont,errorNombre,errorCorreo;
-//        errorCont = validarContrasenha(contrasenha, contrasenha2);
-//        errorNombre = validarNombre(nombre);
-//        errorCorreo = validarCorreo(correo, false);
-//        if(!errorCont.equals("")){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorCont, null);
-//            faceContext.addMessage(null, message);
-//        }else if(!errorNombre.equals("")){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorNombre, null);
-//            faceContext.addMessage(null, message);
-//        }else if(!errorCorreo.equals("")){
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorCorreo, null);
-//            faceContext.addMessage(null, message);
-//        }else{
-//            p = new Profesor();
-//            p.setSContrasenha(contrasenha);
-//            p.setSNombre(nombre);
-//            p.setSCorreo(correo);
-//            try{
-//                daoP.insertar(p);
-//                message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Cuenta creda correctamente.", null);
-//                faceContext.addMessage(null, message);
-//                return beanIndex.INDEX;
-//            }catch(Exception e){
-//                message = new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(), null);
-//                faceContext.addMessage(null, message);
-//            }
-//        }
-//        return beanIndex.REGISTRO_PROFESOR;
-//    }
     
     public String registrarUsuario(){
         Usuario a;
@@ -105,7 +75,7 @@ public class beanRegistro {
             faceContext.getExternalContext().getFlash().setKeepMessages(true);
         }else{
             a = new Usuario();
-            a.setUContrasenha(contrasenha);
+            a.setUContrasenha(cifrar(contrasenha));
             a.setUNombre(nombre);
             a.setUApellido(apellido);
             a.setUCorreo(correo);
@@ -125,6 +95,24 @@ public class beanRegistro {
         }
         return beanIndex.REGISTRAR();
     }
+    
+    public static String cifrar(String contra){
+        int longi = contra.length();
+        String resultado = "";
+        String[] deaqui = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"};
+        String[] aaqui = {"z","y","x","w","v","u","t","s","r","q","p","o","ñ","n","m","l","k","j","i","h","g","f","e","d","c","b","a","9","8","7","6","5","4","3","2","1","0"};
+        for(int i = 0; i<longi; i++){
+            String tmp = ""+contra.charAt(i);
+            for(int e = 0; e<37; e++){
+                if(tmp.equals(deaqui[e])){
+                    resultado = resultado+aaqui[e];
+                }
+            }
+        }
+        return resultado;
+        
+    }
+    
     public static String validarTelefono(String telefono){
         if(telefono.length() != 10){
             return "Longitud del teléfono incorrecta";
@@ -168,15 +156,10 @@ public class beanRegistro {
         if(c == null){
             return "Correo vacio.";
         }
-        if(!c.endsWith(DOMINIO)){
-            return "El correo debe de ser del dominio de @ciencias.unam.mx";
+        if(!c.endsWith(DOMINIO) && !c.endsWith(DOMINIO1) && !c.endsWith(DOMINIO2)){
+            return "El correo debe de ser del dominio de @ciencias.unam.mx, @gmail.com o @hotmail.com";
         }
-        aux = c.substring(0,c.length()-DOMINIO.length());
-        aux = borrar(aux, LETRAS);
-        aux = borrar(aux, NUMEROS);
-        if(!aux.equals("")){
-            return "El correo contiene caracteres invalidos.";
-        }
+
         if(tabla){
             daoA = new UsuarioDao();
             if(daoA.existeCorreo(c)){

@@ -60,12 +60,13 @@
 
 
         </style>
+        <script src="http://maps.google.com/maps/api/js?sensor=true|false" type="text/javascript"></script>
     </h:head>
     <h:body>
         <div >
 
         </div>
-        <img id="full-screen-background-image" alt="full-screen-background-image" src="img/computer-10.jpg"  />
+        <img id="full-screen-background-image" alt="full-screen-background-image" src="img/libros.jpg"  />
         <div class="form ">
 
             <h:form id="formLogin" >
@@ -84,6 +85,9 @@
                     <h4>Confirmar contraseña</h4>
                     <h:inputSecret  value="#{beanRegistro.contrasenha2}"/>
                     
+                    <p:gmap center="19.32164817014775,-99.18515840000003" zoom="15" type="ROADMAP" style="width:100%;height:400px" />
+
+                    <br/>
                     <h:commandButton  value="Registrarse" action="#{beanRegistro.registrarUsuario()}" style="background:#4CAF50; color: #FFFFFF" />
                     <h:commandButton  value="Cancelar" action="#{beanIndex.INDEX()}" style="background:#FF0000; color: #FFFFFF" />
                 </div>
